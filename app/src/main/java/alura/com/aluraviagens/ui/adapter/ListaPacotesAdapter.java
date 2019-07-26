@@ -1,7 +1,6 @@
 package alura.com.aluraviagens.ui.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +9,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 import alura.com.aluraviagens.R;
 import alura.com.aluraviagens.model.Pacote;
+import alura.com.aluraviagens.util.DiasUtil;
+import alura.com.aluraviagens.util.MoedaUtil;
+import alura.com.aluraviagens.util.ResourceUtil;
 
 public class ListaPacotesAdapter extends BaseAdapter {
 
     private final List<Pacote> pacotes;
     private final Context context;
 
-    public ListaPacotesAdapter(List<Pacote> pacotes, Context context){
+    public ListaPacotesAdapter(List<Pacote> pacotes, Context context) {
         this.pacotes = pacotes;
         this.context = context;
     }
@@ -62,30 +60,19 @@ public class ListaPacotesAdapter extends BaseAdapter {
 
     private void mostraPreco(View viewCriada, Pacote pacote) {
         TextView preco = viewCriada.findViewById(R.id.item_pacote_preco);
-        BigDecimal precoDoPacote = pacote.getPreco();
-        NumberFormat formatoBrasileiro = DecimalFormat.getCurrencyInstance(new Locale("pt", "br"));
-        String moedaBrasileira = formatoBrasileiro.format(precoDoPacote).replace("R$", "R$ ");
+        String moedaBrasileira = MoedaUtil.formataParaBrasileiro(pacote.getPreco());
         preco.setText(moedaBrasileira);
     }
 
     private void mostraDias(View viewCriada, Pacote pacote) {
         TextView dias = viewCriada.findViewById(R.id.item_pacote_dias);
-        int diasDoPacote = pacote.getDias();
-        String diasTexto;
-        if(diasDoPacote > 1){
-            diasTexto = diasDoPacote + " dias";
-        } else {
-            diasTexto = diasDoPacote + " dia";
-        }
+        String diasTexto = DiasUtil.formataEmTexto(pacote.getDias());
         dias.setText(diasTexto);
     }
 
     private void mostraImagem(View viewCriada, Pacote pacote) {
         ImageView imagem = viewCriada.findViewById(R.id.item_pacote_imagem);
-        Resources resources = context.getResources();
-        int idDoDrawable = resources.getIdentifier(pacote.getImagem(),
-                "drawable", context.getPackageName());
-        Drawable drawableImagemPacote = resources.getDrawable(idDoDrawable);
+        Drawable drawableImagemPacote = ResourceUtil.devolveDrawable(context, pacote.getImagem());
         imagem.setImageDrawable(drawableImagemPacote);
     }
 
