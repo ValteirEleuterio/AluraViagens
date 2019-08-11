@@ -1,15 +1,17 @@
 package alura.com.aluraviagens.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-
-import java.math.BigDecimal;
 
 import alura.com.aluraviagens.R;
 import alura.com.aluraviagens.model.Pacote;
 import alura.com.aluraviagens.util.MoedaUtil;
+
+import static alura.com.aluraviagens.ui.PacoteActivityConstantes.CHAVE_PACOTE;
 
 public class PagamentoActivity extends AppCompatActivity {
 
@@ -19,15 +21,33 @@ public class PagamentoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagamento);
-
         setTitle(TITULO_APPBAR);
+        carregaPacoteRecebido();
+    }
 
-        Pacote pacoteSaoPaulo = new Pacote("São Paulo",
-                "sao_paulo_sp", 2, new BigDecimal("243.99"));
+    private void carregaPacoteRecebido() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(CHAVE_PACOTE)) {
+            final Pacote pacote = intent.getExtras().getParcelable(CHAVE_PACOTE);
+            mostraPreco(pacote);
+            configuraBotao(pacote);
+        }
+    }
 
-        mostraPreco(pacoteSaoPaulo);
+    private void configuraBotao(final Pacote pacote) {
+        Button botaoFinalizaCompra = findViewById(R.id.pagamento_botao_finaliza_compra);
+        botaoFinalizaCompra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vaiParaResumoCompra(pacote);
+            }
+        });
+    }
 
-        Intent intent = new Intent(this, ResumoCompraActivity.class);
+    private void vaiParaResumoCompra(Pacote pacote) {
+        Intent intent = new Intent(PagamentoActivity.this,
+                ResumoCompraActivity.class);
+        intent.putExtra(CHAVE_PACOTE, pacote);
         startActivity(intent);
     }
 

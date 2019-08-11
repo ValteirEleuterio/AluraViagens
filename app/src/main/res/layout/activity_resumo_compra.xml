@@ -65,7 +65,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/resumo_compra_confira_resumo"
+        app:layout_constraintTop_toBottomOf="@+id/resumo_compra_confira_resumo"
         tools:srcCompat="@drawable/sao_paulo_sp" />
 
     <TextView
