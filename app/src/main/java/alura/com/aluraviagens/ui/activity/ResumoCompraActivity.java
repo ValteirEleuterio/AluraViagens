@@ -13,6 +13,8 @@ import alura.com.aluraviagens.util.DataUtil;
 import alura.com.aluraviagens.util.MoedaUtil;
 import alura.com.aluraviagens.util.ResourceUtil;
 
+import static alura.com.aluraviagens.ui.PacoteActivityConstantes.CHAVE_PACOTE;
+
 public class ResumoCompraActivity extends AppCompatActivity {
 
     public static final String TITULO_APPBAR = "Resumo da compra";
@@ -27,8 +29,8 @@ public class ResumoCompraActivity extends AppCompatActivity {
 
     private void carregaPacoteRecebido() {
         Intent intent = getIntent();
-        if (intent.hasExtra("pacote")) {
-            Pacote pacote = intent.getExtras().getParcelable("pacote");
+        if (intent.hasExtra(CHAVE_PACOTE)) {
+            Pacote pacote = intent.getExtras().getParcelable(CHAVE_PACOTE);
             inicializaCampos(pacote);
         }
     }
